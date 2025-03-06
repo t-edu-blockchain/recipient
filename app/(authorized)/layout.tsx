@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 import {
   MenuFoldOutlined,
@@ -7,6 +8,7 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
+import {useRouter} from 'next/navigation'
 
 const { Header, Sider, Content } = Layout;
 
@@ -19,6 +21,7 @@ export default function DashboardLayout({
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+    const router = useRouter();
 
   return (
     <Layout>
@@ -32,12 +35,14 @@ export default function DashboardLayout({
             {
               key: '1',
               icon: <UserOutlined />,
-              label: 'Certificate',
+              label: 'Dashboard',
+              onClick: () => router.push('/dashboard')
             },
             {
               key: '2',
               icon: <UploadOutlined />,
               label: 'Account',
+              onClick: () => router.push('/account')
             },
           ]}
         />
