@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Button, Modal, QRCode, Card, Typography, Row, Col, Input } from 'antd';
+import { Button, Modal, QRCode, Table, Typography, Input} from 'antd';
 
 const { Title, Text } = Typography;
 const { Search } = Input;
@@ -8,8 +8,7 @@ const { Search } = Input;
 // Define types for certificate data
 interface Certificate {
   certificateId: string;
-  studentName: string;
-  course: string;
+  certificateName: string;
   issueDate: string;
   validity: string;
 }
@@ -23,83 +22,114 @@ const Dashboard: React.FC = () => {
   const certificates: Certificate[] = [
     {
       certificateId: '123456',
-      studentName: 'John Doe',
-      course: 'React Development',
+      certificateName: 'A',
       issueDate: 'March 2025',
       validity: 'Lifetime',
     },
     {
       certificateId: '789012',
-      studentName: 'Emily Johnson',
-      course: 'Full Stack Web Development',
+      certificateName: 'B',
       issueDate: 'January 2025',
       validity: 'Lifetime',
     },
     {
       certificateId: '345678',
-      studentName: 'Michael Brown',
-      course: 'Data Science',
+      certificateName: 'C',
       issueDate: 'July 2024',
       validity: '1 Year',
     },
     {
+      certificateId: '345678',
+      certificateName: 'C',
+      issueDate: 'July 2024',
+      validity: '1 Year',
+    },
+    {
+      certificateId: '345678',
+      certificateName: 'C',
+      issueDate: 'July 2024',
+      validity: '2 Year',
+    },
+    {
       certificateId: '901234',
-      studentName: 'Sophia Lee',
-      course: 'UI/UX Design',
+      certificateName: 'D',
       issueDate: 'December 2024',
       validity: 'Lifetime',
     },
   ];
 
+  // Columns definition for the Ant Design Table
+  const columns = [
+      {
+          title: 'Certificate ID',
+          dataIndex: 'certificateId',
+          key: 'certificateId',
+      },
+      {
+          title: 'Certificate Name',
+          dataIndex: 'certificateName',
+          key: 'certificateName',
+      },
+      {
+          title: 'Issue Date',
+          dataIndex: 'issueDate',
+          key: 'issueDate',
+      },
+      {
+          title: 'Validity',
+          dataIndex: 'validity',
+          key: 'validity',
+      },
+      {
+          title: 'Action',
+          key: 'action',
+          render: (text: any, record: Certificate) => (
+              <Button type="primary" onClick={() => handleShare(record)}>
+              Share
+              </Button>
+          ),
+      },
+  ];
+
   // Filter certificates based on the search query
   const filteredCertificates = certificates.filter(
-    (certificate) =>
-      certificate.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      certificate.course.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (certificate) =>
+      certificate.certificateName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       certificate.certificateId.includes(searchQuery)
   );
 
-  const showModal = (certificate: Certificate): void => {
-    setSelectedCertificate(certificate);
-    setIsModalOpen(true);
+  const handleShare = (certificate: Certificate): void => {
+      setSelectedCertificate(certificate);
+      setIsModalOpen(true);
   };
 
   const handleOk = (): void => {
-    setIsModalOpen(false);
+      setIsModalOpen(false);
   };
 
   const handleCancel = (): void => {
-    setIsModalOpen(false);
+      setIsModalOpen(false);
   };
 
   return (
     <div style={{ padding: '20px' }}>
-      <Title level={2}>Student Dashboard</Title>
+      <Title level={2}>Dashboard</Title>
+
 
       {/* Search Input */}
       <Search
-        placeholder="Search by Student Name, Course, or Certificate ID"
+        placeholder="Search by Certificate ID"
         onChange={(e) => setSearchQuery(e.target.value)}
         style={{ marginBottom: '20px', width: '100%' }}
       />
 
-      <Row gutter={[16, 16]}>
-        {filteredCertificates.map((certificate) => (
-          <Col key={certificate.certificateId} span={8}>
-            <Card>
-              <Title level={4}>Certificate Information</Title>
-              <p><strong>Certificate ID:</strong> {certificate.certificateId}</p>
-              <p><strong>Student Name:</strong> {certificate.studentName}</p>
-              <p><strong>Course:</strong> {certificate.course}</p>
-              <p><strong>Issue Date:</strong> {certificate.issueDate}</p>
-              <p><strong>Validity:</strong> {certificate.validity}</p>
-              <Button type="primary" onClick={() => showModal(certificate)}>
-                Share
-              </Button>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      {/* Table to display certificates */}
+      <Table
+        columns={columns}
+        dataSource={filteredCertificates}
+        rowKey="certificateId"
+        pagination={false} // Disable pagination, you can enable it if needed
+      />
 
       {selectedCertificate && (
         <Modal
@@ -110,11 +140,13 @@ const Dashboard: React.FC = () => {
           footer={[
             <Button key="back" onClick={handleCancel}>
               Close
-            </Button>
+            </Button>,
           ]}
         >
           <QRCode value={`https://example.com/certificate/${selectedCertificate.certificateId}`} />
-          <Text>Scan this QR code to view or share your certificate.</Text>
+          <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center' }}>
+            <Text copyable>https://verify.com/{selectedCertificate.certificateId}</Text>
+          </div>
         </Modal>
       )}
     </div>
@@ -122,3 +154,4 @@ const Dashboard: React.FC = () => {
 };
 
 export default Dashboard;
+

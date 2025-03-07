@@ -34,11 +34,17 @@ export default function DashboardLayout({
             {
               key: '1',
               icon: <UserOutlined />,
+              label: 'Home',
+              onClick: () => router.push('/home')
+            },
+            {
+              key: '2',
+              icon: <UserOutlined />,
               label: 'Dashboard',
               onClick: () => router.push('/dashboard')
             },
             {
-              key: '2',
+              key: '3',
               icon: <UploadOutlined />,
               label: 'Account',
               onClick: () => router.push('/account')
