@@ -5,7 +5,7 @@ import {
   MenuUnfoldOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { HomeOutlined, DashboardOutlined, FileSearchOutlined} from '@ant-design/icons';
+import { HomeOutlined, DashboardOutlined} from '@ant-design/icons';
 
 import { Button, Layout, Menu, theme } from 'antd';
 import {useRouter} from 'next/navigation'
@@ -46,12 +46,6 @@ export default function DashboardLayout({
             },
             {
               key: '3',
-              icon: <FileSearchOutlined />,
-              label: 'Issue Certificate',
-              onClick: () => router.push('/issue')
-            },
-            {
-              key: '4',
               icon: <UserOutlined />,
               label: 'Account',
               onClick: () => router.push('/account')
