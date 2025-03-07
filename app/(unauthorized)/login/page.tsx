@@ -2,21 +2,28 @@
 import React from 'react';
 import type { FormProps } from 'antd';
 import { Button, Form, Input, Typography } from 'antd';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+const {Text} = Typography
 
 type FieldType = {
   email?: string;
   password?: string;
 };
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-  console.log('Success:', values);
-};
+const Login = () => { 
+    const router = useRouter()
+    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+      console.log('Success:', values);
+      router.push("/dashboard")
+    };
 
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
+    const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+      console.log('Failed:', errorInfo);
+    };
 
-const Login = () => (
+    return (
   <div style={{ padding: '40px 0', backgroundColor: '#f0f2f5' }}>
     <div
       style={{
@@ -29,7 +36,7 @@ const Login = () => (
       }}
     >
       <Typography.Title level={2} style={{ textAlign: 'center', marginBottom: '30px' }}>
-        Student Login
+        Login
       </Typography.Title>
 
       <Form
@@ -72,10 +79,17 @@ const Login = () => (
             Submit
           </Button>
         </Form.Item>
+
+        <Text>
+        You do not have account? 
+        <Link href="/register" passHref>
+            Register
+        </Link>
+        </Text>
       </Form>
     </div>
   </div>
-);
+) };
 
 export default Login;
 

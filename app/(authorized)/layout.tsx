@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import { HomeOutlined, DashboardOutlined, FileSearchOutlined} from '@ant-design/icons';
+
 import { Button, Layout, Menu, theme } from 'antd';
 import {useRouter} from 'next/navigation'
 
@@ -33,19 +34,25 @@ export default function DashboardLayout({
           items={[
             {
               key: '1',
-              icon: <UserOutlined />,
+              icon: <HomeOutlined />,
               label: 'Home',
               onClick: () => router.push('/home')
             },
             {
               key: '2',
-              icon: <UserOutlined />,
+              icon: <DashboardOutlined />,
               label: 'Dashboard',
               onClick: () => router.push('/dashboard')
             },
             {
               key: '3',
-              icon: <UploadOutlined />,
+              icon: <FileSearchOutlined />,
+              label: 'Issue Certificate',
+              onClick: () => router.push('/issue')
+            },
+            {
+              key: '4',
+              icon: <UserOutlined />,
               label: 'Account',
               onClick: () => router.push('/account')
             },
